@@ -1,10 +1,13 @@
 body{
   font-size: 30pt;
+  font-family: "Raleway"
 }
 .container{
+
 	width: 400px;
 	color: white;
 	margin:auto;
+  margin-top: 50px;
 }
 
 .box{
@@ -15,6 +18,43 @@ body{
 	background: rgba(88, 99, 156, 0.9);
 	vertical-align:top;
 	text-align: center;
-  font-size: 120pt;
-  line-height: 45%;
+  font-size: 100pt;
+  line-height: 50%;
+}
+
+.tie {
+  width: 350px;
+  margin:auto;
+  background-color: black;
+
+
+}
+
+.buttons {
+  float: right;
+  font-size: 18pt;
+  margin-top: -250px;
+  margin-right: 100px;
+}
+
+.buttons > form{
+  font-size: 14pt;
+}
+
+#modal{
+  left:0;
+  margin: auto;
+  margin-top: 10px;
+  display:none;
+  width: 80%;
+  background-color: rgba(0,0,0,.4);
+  text-align: center;
+  color: black;
+}
+
+#modal-reset {
+  /*margin-left: 115px;*/
+}
+#title{
+  font-size: 25pt;
 }

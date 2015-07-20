@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet">
   <link href='http://fonts.googleapis.com/css?family=Raleway' rel='stylesheet' type='text/css'>
   <meta charset="UTF-8">
   <title>Document</title>
@@ -8,10 +9,31 @@
 
 </head>
 <body>
-
+  <div id="title">Tic Tac Toe</div>
+  <div id="modal">
+    <div class="modal-content"> <span>hwllooo</span>
+      <div class="modal-header">
+        <button id="modal-reset">Reset</button>
+      </div>
+    </div>
+  </div>
   <div class="container">
 	</div>
+  <div class="buttons">
+    Choose one:
+    <form>
+      <fieldset>
+        <input type="radio" name="choice" value="1">2Players<br />
+        <input type="radio" name="choice" value="2">ComputerEasy<br />
+        <input type="radio" name="choice" value="3">ComputerHard<br />
+      </fieldset>
+    </form>
+    <!-- <button class="play">play</button> -->
+    <button class="reset">reset</button>
+  </div>
+
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+  <!-- // <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script> -->
   <script src="script.js"></script>
 </body>
 </html>
