@@ -25,11 +25,13 @@ var checkBlocks = function(){
         console.log(placeChange)
         console.log("there's a potetioal block there")
         console.log(i)
+        return false
       }
     }
     console.log(winSum)
     console.log(a)
   }
+  return true
 }
 var checkWins = function(){
   var diagL = [[a[0], 0], [a[4], 4], [a[8], 8]]
@@ -55,18 +57,65 @@ var checkWins = function(){
         console.log(placeChange)
         console.log("there's a potetioal win there")
         console.log(i)
+        return false
       }
     }
     console.log(winSum)
     console.log(a)
   }
+  return true
+}
+var turn2corners = function(){
+  if (a[0] === "x" && a[8] === "x" || a[2] === "x" && a[6] === "x"){
+    a[1] = "o"
+    $("#1").text("o")
+    return false
+  } else if((a[1] === "x" && a[7] === "x")|| (a[3] === "x" && a[5] === "x")){
+    a[2] = "o"
+    $("#2").text("o")
+    return false
+  } else if(a[1] === "x" && a[3] == "x"){
+    a[0] = "o"
+    $("#0").text("o")
+    return false
+  } else if(a[1] === "x" && a[5] == "x"){
+    a[2] = "o"
+    $("#1").text("o")
+    return false
+  } else if(a[7] === "x" && a[3] == "x"){
+    a[6] = "o"
+    $("#6").text("o")
+    return false
+  } else if(a[7] === "x" && a[5] == "x"){
+    a[8] = "o"
+    $("#8").text("o")
+    return false
+  } else {
+    if(a[0] === "x" && a[8] === "_"){
+      a[8] = "o"
+      $("#8").text("o")
+      return false
+    } else if(a[6] === "x" && a[2] === "_"){
+      a[2] = "o"
+      $("#2").text("o")
+      return false
+    } else if(a[2] === "x" && a[6] === "_"){
+      a[6] = "o"
+      $("#6").text("o")
+      return false
+    } else if(a[8] === "x" && a[0] === "_"){
+      a[0] = "o"
+      $("#0").text("o")
+      return false
+    }
+    return true
+  }
+  return true
 }
 
 var hardPlay = function(){
   var turn = 0
   var diags = [a[0], a[2], a[6], a[8]]
-
-
 
   $('.box').on('click', function (event) {
     boxId = $(event.target).attr('id')
@@ -85,27 +134,9 @@ var hardPlay = function(){
          }
       } else if(turn === 1){
         turn += 1
-        checkWins()
-        checkBlocks()
-        if (a[0] === "x" && a[8] === "x" || a[2] === "x" && a[6] === "x"){
-          a[1] = "o"
-          $("#1").text("o")
-        } else if((a[1] === "x" && a[7] === "x")|| (a[3] === "x" && a[5] === "x")){
-          a[2] = "o"
-          $("#2").text("o")
-        } else {
-          if(a[0] === "x" && a[8] === "_"){
-            a[8] = "o"
-            $("#8").text("o")
-          } else if(a[6] === "x" && a[2] === "_"){
-            a[2] = "o"
-            $("#2").text("o")
-          } else if(a[2] === "x" && a[6] === "_"){
-            a[6] = "o"
-            $("#6").text("o")
-          } else if(a[8] === "x" && a[0] === "_"){
-            a[0] = "o"
-            $("#0").text("o")
+        if (checkWins() === true){
+          if(checkBlocks() === true){
+            turn2corners()
           }
         }
       } else if (turn === 2){
@@ -114,7 +145,10 @@ var hardPlay = function(){
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         } else {
-        checkBlocks()
+        if (checkBlocks() === true){
+          computerPlayEasy(a)
+        }
+
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         }
@@ -126,7 +160,9 @@ var hardPlay = function(){
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         } else {
-          checkBlocks()
+          if(checkBlocks() === true){
+              computerPlayEasy(a)
+          }
           if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         }
@@ -138,6 +174,7 @@ var hardPlay = function(){
           return
         } else {
           checkBlocks()
+          computerPlayEasy(a)
           if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         }
@@ -155,13 +192,6 @@ function regroup(arr) {
   }
   return z
 }
-
-function flatten(arr) {
-  return  arr.reduce(function (flat, toFlatten) {
-    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-  }, []);
-}
-
 
 function gameState(arr) {
   var q = regroup(arr)
@@ -195,7 +225,6 @@ function gameState(arr) {
   }
 }
 
-
 function computerPlayEasy(arr) {
   var sortBlanks = []
   for(var i = 0; i < arr.length; i++) {
@@ -206,14 +235,7 @@ function computerPlayEasy(arr) {
   var random = sortBlanks[Math.floor(Math.random()*sortBlanks.length)]
   $("#" + random).text("o")
   a[random] = "o"
-  // console.log(sortBlanks)
-  // console.log(arr)
-
-
 }
-
-
-
 
 var onePlayerGame = function(arr){
   $('.box').on('click', function (event) {
@@ -233,8 +255,6 @@ var onePlayerGame = function(arr){
 
 }
 
-
-
 var twoPlayerGame = function(arr){
   var turn = "x"
 
@@ -245,7 +265,6 @@ var twoPlayerGame = function(arr){
     console.log("gameState: " + a)
     console.log(gameState(a))
     if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
-      // $('.box').off('click')
       return
     }
     if (turn === "o"){
@@ -299,21 +318,6 @@ var Gamesetup = function Gamesetup(box) {
   }
  console.log(playChoice)
 }
-//
-// console.log(regroup(flatten(a)))
-
-// turn constructer function
-//collapse the array into
-//   generate the squares
-
-//   for each of the squares on click, they need to:
-//   record the value on the computer board
-//   have the computer read the board and look for a win
-//
-//
-// how to i communicate to the computer reads the positioning of the clicked square?
-// set the value of itself equal to x.
-// group it by 3 again
 
 var game = new Gamesetup(a)
 game.render();
