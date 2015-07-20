@@ -9,7 +9,8 @@ var disableBox = function(){
   }
 }
 
-var checkBlocks = function(){
+var checkWinsBlocks = function(letter){
+  var regex = new RegExp(letter, 'g')
   var diagL = [[a[0], 0], [a[4], 4], [a[8], 8]]
   var diagR =  [[a[2],2], [a[4],4], [a[6],6]]
   var column1 = [[a[0],0], [a[3],3], [a[6],6]]
@@ -24,40 +25,8 @@ var checkBlocks = function(){
     winStates[i].forEach(function(e){
       winSum.push(e[0])
     })
-    if(winSum.join("").match(/[x]/g) != null){
-      if(winSum.join("").match(/[x]/g).length === 2 && winSum.indexOf("_") > -1){
-        console.log(winSum)
-        var placeChange = winStates[i][winSum.indexOf("_")][1]
-        $("#" + placeChange).text("o")
-        a[placeChange] = "o"
-        console.log(placeChange)
-        console.log("there's a potetioal block there")
-        console.log(i)
-        return false
-      }
-    }
-    console.log(winSum)
-    console.log(a)
-  }
-  return true
-}
-var checkWins = function(){
-  var diagL = [[a[0], 0], [a[4], 4], [a[8], 8]]
-  var diagR =  [[a[2],2], [a[4],4], [a[6],6]]
-  var column1 = [[a[0],0], [a[3],3], [a[6],6]]
-  var column2 = [[a[1],1], [a[4],4], [a[7],7]]
-  var column3 = [[a[2],2], [a[5],5], [a[8],8]]
-  var row1 = [[a[0],0], [a[1],1], [a[2],2]]
-  var row2 = [[a[3],3], [a[4],4], [a[5],5]]
-  var row3 = [[a[6],6], [a[7],7], [a[8],8]]
-  var winStates = [diagL, diagR, column1, column2, column3, row1, row2, row3]
-  for(var i = 0; i < winStates.length; i++){
-    var winSum = []
-    winStates[i].forEach(function(e){
-      winSum.push(e[0])
-    })
-    if(winSum.join("").match(/[o]/g) != null){
-      if(winSum.join("").match(/[o]/g).length === 2 && winSum.indexOf("_") > -1){
+    if(winSum.join("").match(regex) != null){
+      if(winSum.join("").match(regex).length === 2 && winSum.indexOf("_") > -1){
         console.log(winSum)
         var placeChange = winStates[i][winSum.indexOf("_")][1]
         $("#" + placeChange).text("o")
@@ -73,6 +42,7 @@ var checkWins = function(){
   }
   return true
 }
+
 var turn2corners = function(){
   if (a[0] === "x" && a[8] === "x" || a[2] === "x" && a[6] === "x"){
     a[1] = "o"
@@ -88,7 +58,7 @@ var turn2corners = function(){
     return false
   } else if(a[1] === "x" && a[5] == "x"){
     a[2] = "o"
-    $("#1").text("o")
+    $("#2").text("o")
     return false
   } else if(a[7] === "x" && a[3] == "x"){
     a[6] = "o"
@@ -142,18 +112,18 @@ var hardPlay = function(){
          }
       } else if(turn === 1){
         turn += 1
-        if (checkWins() === true){
-          if(checkBlocks() === true){
+        if (checkWinsBlocks("o") === true){
+          if(checkWinsBlocks("x") === true){
             turn2corners()
           }
         }
       } else if (turn === 2){
         turn += 1
-        checkWins()
+        checkWinsBlocks("o")
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         } else {
-        if (checkBlocks() === true){
+        if (checkWinsBlocks("x") === true){
           computerPlayEasy(a)
         }
 
@@ -164,11 +134,11 @@ var hardPlay = function(){
         }
       } else if (turn === 3){
         turn += 1
-        checkWins()
+        checkWinsBlocks("o")
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         } else {
-          if(checkBlocks() === true){
+          if(checkWinsBlocks("x") === true){
               computerPlayEasy(a)
           }
           if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
@@ -177,11 +147,11 @@ var hardPlay = function(){
           gameState(a)
         }
       } else if (turn === 4){
-        checkWins()
+        checkWinsBlocks("o")
         if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
         } else {
-          checkBlocks()
+          checkWinsBlocks("x")
           computerPlayEasy(a)
           if(gameState(a) === "player win" || gameState(a) === "computer win" || gameState(a) === "tie"){
           return
@@ -192,7 +162,6 @@ var hardPlay = function(){
     disableBox()
   })
 }
-
 
 function regroup(arr) {
   var z = []
