@@ -1,6 +1,14 @@
 //board setup
 var a = ["_", "_","_","_", "_","_","_", "_","_"]
 
+var disableBox = function(){
+  for(var i = 0; i < a.length; i++){
+    if(a[i] === "x" || a[i] === "o"){
+      $("#" + i).off('click')
+    }
+  }
+}
+
 var checkBlocks = function(){
   var diagL = [[a[0], 0], [a[4], 4], [a[8], 8]]
   var diagR =  [[a[2],2], [a[4],4], [a[6],6]]
@@ -181,6 +189,7 @@ var hardPlay = function(){
           gameState(a)
         }
       }
+    disableBox()
   })
 }
 
@@ -251,6 +260,7 @@ var onePlayerGame = function(arr){
       gameState(a)
     }
     console.log("gameState: " + a)
+    disableBox()
   })
 
 }
@@ -272,6 +282,7 @@ var twoPlayerGame = function(arr){
     } else {
       turn = "o"
     }
+    disableBox()
   })
 }
 
